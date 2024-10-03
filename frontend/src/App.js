@@ -12,10 +12,10 @@ import Logout from './pages/access/Logout';
 
 // UserArea
 import User from './pages/userArea/User';
-import Profile from './pages/userArea/Profile';
-import Settings from './pages/userArea/Settings';
-import Bonuses from './pages/userArea/Bonuses';
-import Transactions from './pages/userArea/Transactions';
+import Profile from './pages/userArea/pages/Profile';
+import Settings from './pages/userArea/pages/Settings';
+import Bonuses from './pages/userArea/pages/Bonuses';
+import Transactions from './pages/userArea/pages/Transactions';
 
 // Components
 import Topbar from './components/Topbar';

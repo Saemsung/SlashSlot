@@ -1,5 +1,5 @@
 import React from 'react';
-import Lateralbar from '../../components/Lateralbar';
+import Lateralbar from '../../../components/Lateralbar';
 
 const Bonuses = () => {
   // Placeholder data for acquired bonuses
