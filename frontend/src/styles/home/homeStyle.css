@@ -1,0 +1,113 @@
+/* homeStyle.css */
+@import 'homeStyle2.css';
+/* @import 'homeStyle3.css'; Uncomment when homeStyle3.css is created */
+
+.home-container {
+  text-align: center;
+  background-color: #ffffff;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.main-content {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 40px 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center; /* Centering the content vertically */
+}
+
+.first-section {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start; /* Pushing the title towards the top */
+  padding-top: 160px; /* Added padding to move the title higher */
+}
+
+.main-title {
+  font-size: 72px; /* Dimensione del carattere del titolo */
+  margin: 20px 0;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  line-height: 1.2;
+  position: relative; /* Rende possibile l'utilizzo di left e right per la posizione */
+}
+
+.title-line {
+  display: flex; /* Assicurati che le parole siano sulla stessa riga */
+}
+
+.first-line {
+  justify-content: flex-start; /* Modifica questa proprietà per allineare a sinistra */
+  margin-right: 350px; /* Modifica questo valore per regolare la posizione */
+}
+
+.second-line {
+  justify-content: flex-end; /* Modifica questa proprietà per allineare a destra */
+  margin-left: 350px; /* Modifica questo valore per regolare la posizione */
+}
+
+/* Mantieni le animazioni esistenti per le title-word */
+.title-word {
+  margin: 0 5px;
+  display: inline-block;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+
+.title-word.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.description {
+  font-size: 24px; /* Enlarged the description font */
+  line-height: 1.4;
+  margin: 10px 0; /* Adjusted margin */
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.5s ease, transform 0.5s ease;
+  max-width: 700px; /* Added a max-width for better readability */
+  text-align: center; /* Centered the text */
+}
+
+.description.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.cta-button {
+  padding: 15px 30px;
+  font-size: 20px; /* Increased font size */
+  background-color: #000;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  border-radius: 10px;
+  margin-top: 20px;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+.cta-button.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.third-section {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: #f0f0f0;
+  padding: 40px 20px;
+}

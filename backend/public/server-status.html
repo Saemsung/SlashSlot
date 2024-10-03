@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stato del Server e delle API</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        h1 {
+            color: #2c3e50;
+        }
+        .status {
+            margin-bottom: 20px;
+            padding: 10px;
+            border-radius: 5px;
+        }
+        .online {
+            background-color: #e6ffe6;
+            border: 1px solid #99ff99;
+        }
+        .offline {
+            background-color: #ffe6e6;
+            border: 1px solid #ff9999;
+        }
+        .api-list {
+            list-style-type: none;
+            padding: 0;
+        }
+        .api-item {
+            margin-bottom: 10px;
+            padding: 10px;
+            background-color: #f0f0f0;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Stato del Server e delle API</h1>
+    <div id="serverStatus" class="status"></div>
+    <div id="databaseStatus" class="status"></div>
+    <h2>Elenco delle API</h2>
+    <ul id="apiList" class="api-list"></ul>
+
+    <script>
+        function updateStatus() {
+            fetch('/api/status')
+                .then(response => response.json())
+                .then(data => {
+                    updateServerStatus(data.server);
+                    updateDatabaseStatus(data.database);
+                    updateApiList(data.api);
+                })
+                .catch(error => {
+                    console.error('Errore nel recupero dello stato:', error);
+                    updateServerStatus('offline');
+                    updateDatabaseStatus('disconnected');
+                });
+        }
+
+        function updateServerStatus(status) {
+            const serverStatusElement = document.getElementById('serverStatus');
+            serverStatusElement.textContent = `Stato del Server: ${status}`;
+            serverStatusElement.className = `status ${status === 'online' ? 'online' : 'offline'}`;
+        }
+
+        function updateDatabaseStatus(status) {
+            const databaseStatusElement = document.getElementById('databaseStatus');
+            databaseStatusElement.textContent = `Stato del Database: ${status}`;
+            databaseStatusElement.className = `status ${status === 'connected' ? 'online' : 'offline'}`;
+        }
+
+        function updateApiList(apis) {
+            const apiListElement = document.getElementById('apiList');
+            apiListElement.innerHTML = '';
+            for (const [name, path] of Object.entries(apis)) {
+                const li = document.createElement('li');
+                li.className = 'api-item';
+                li.textContent = `${name}: ${path}`;
+                apiListElement.appendChild(li);
+            }
+        }
+
+        // Aggiorna lo stato ogni 30 secondi
+        updateStatus();
+        setInterval(updateStatus, 30000);
+    </script>
+</body>
+</html>

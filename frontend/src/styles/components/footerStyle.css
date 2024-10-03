@@ -1,0 +1,30 @@
+/* src/styles/footerStyle.css */
+.footer {
+  background-color: #000;
+  color: #fff;
+  padding: 30px 20px;
+  text-align: left;
+}
+
+.footer-columns {
+  display: flex;
+  justify-content: space-around;
+}
+
+.column {
+  display: flex;
+  flex-direction: column;
+}
+
+.column a {
+  color: #fff;
+  text-decoration: none;
+  margin-bottom: 8px;
+  font-size: 14px;
+}
+
+.copyright {
+  text-align: center;
+  margin-top: 20px;
+  font-size: 14px;
+}

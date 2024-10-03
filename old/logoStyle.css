@@ -1,0 +1,33 @@
+/* src/styles/logoStyle.css */
+#logo-container {
+  transform: translateY(-30px) translateX(30px);
+  font-family: Arial, serif;
+  font-size: 24px;
+  font-weight: bold;
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+  transition: transform 0.4s;
+  
+}
+
+#slash, #slash-text, #moving-s, #lot-text {
+  display: inline-block;
+}
+
+#slash-text, #lot-text {
+  transition: opacity 0.3s, transform 0.4s;
+}
+
+#moving-s {
+  transition: transform 0.4s;
+}
+
+.closed #slash-text, .closed #lot-text {
+  opacity: 0;
+  transform: translateX(-5px);
+}
+
+.closed #moving-s {
+  transform: translateX(-83px);
+}
