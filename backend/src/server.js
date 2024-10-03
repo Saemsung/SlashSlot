@@ -4,6 +4,7 @@ const cors = require('cors');
 const path = require('path');
 require('dotenv').config();
 mongoose.set('strictQuery', true);
+const { checkTokenBlacklist } = require('./controllers/accessController');
 const accessRoutes = require('./routes/accessRoutes');
 const accountRoutes = require('./routes/accountRoutes');
 const { connectDB } = require('./config/database');
@@ -21,6 +22,7 @@ app.use(cors({
 connectDB();
 
 // Routes
+app.use('/api', checkTokenBlacklist);
 app.use('/api', accessRoutes);
 app.use('/api', accountRoutes);
 

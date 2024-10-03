@@ -2,11 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { User, CreditCard, Gift, Settings, HelpCircle, LogOut } from 'lucide-react';
 import '../styles/components/lateralbarStyle.css';
-import { logout } from '../services/auth';
 
 const LateralBar = () => {
   const [isLogoOpen, setIsLogoOpen] = useState(true);
-  const navigate = useNavigate();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -17,15 +15,6 @@ const LateralBar = () => {
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
-
-  const handleLogout = async () => {
-    try {
-      await logout();
-      navigate('/access/login');
-    } catch (error) {
-      console.error('Error during logout:', error);
-    }
-  };
 
   return (
     <div className="lateral-bar">
@@ -42,7 +31,7 @@ const LateralBar = () => {
             </Link>
           </li>
           <li>
-            <Link to="/account/profile">
+            <Link to="/account/user">
               <User size={20} />
               <span>Profilo</span>
             </Link>
@@ -66,16 +55,16 @@ const LateralBar = () => {
             </Link>
           </li>
           <li>
-            <Link to="/account/help">
+            <Link to="/account/profilo">
               <HelpCircle size={20} />
               <span>Aiuto</span>
             </Link>
           </li>
           <li>
-            <button onClick={handleLogout}>
+            <Link to="/access/logout">
               <LogOut size={20} />
               <span>Logout</span>
-            </button>
+            </Link>
           </li>
         </ul>
       </nav>

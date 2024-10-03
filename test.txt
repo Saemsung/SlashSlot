@@ -14,5 +14,3 @@ Esegui il push delle modifiche su GitHub:
 bash
 Copia codice
 git push origin nome_branch
-
-testo

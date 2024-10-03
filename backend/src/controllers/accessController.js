@@ -3,6 +3,7 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const User = require('../models/Account');
 const { sendResetPasswordEmail } = require('../utils/emailService');
+const crypto = require('crypto'); // Aggiungi questa riga
 
 exports.register = async (req, res) => {
   try {
@@ -74,18 +75,30 @@ exports.refreshToken = async (req, res) => {
 
 exports.requestPasswordReset = async (req, res) => {
   try {
+    console.log('Richiesta di reset password ricevuta:', req.body);
     const { email } = req.body;
+    
+    console.log('Ricerca utente con email:', email);
     const user = await User.findOne({ email });
     if (!user) {
+      console.log('Utente non trovato');
       return res.status(404).json({ message: 'Utente non trovato' });
     }
+    console.log('Utente trovato:', user._id);
 
     const resetToken = crypto.randomBytes(20).toString('hex');
+    console.log('Token di reset generato:', resetToken);
+    
     user.resetPasswordToken = resetToken;
     user.resetPasswordExpires = Date.now() + 3600000; // 1 ora
+    console.log('Salvataggio token nel database');
     await user.save();
+    console.log('Token salvato con successo');
 
+    console.log('Invio email di reset');
     await sendResetPasswordEmail(user.email, resetToken);
+    console.log('Email di reset inviata con successo');
+
     res.json({ message: 'Email di reset inviata' });
   } catch (error) {
     console.error('Errore durante la richiesta di reset password:', error);
@@ -122,11 +135,26 @@ exports.resetPassword = async (req, res) => {
 
 exports.logout = async (req, res) => {
   try {
-    // In a real-world scenario, you might want to invalidate the token on the server-side
-    // For this example, we'll just send a success response
-    res.json({ message: 'Logout successful' });
+    const token = req.headers.authorization?.split(' ')[1];
+    if (token) {
+      // Aggiungi il token alla blacklist
+      if (!global.tokenBlacklist) {
+        global.tokenBlacklist = new Set();
+      }
+      global.tokenBlacklist.add(token);
+    }
+    res.json({ message: 'Logout effettuato con successo' });
   } catch (error) {
     console.error('Errore durante il logout:', error);
     res.status(500).json({ message: 'Errore durante il logout', error: error.message });
   }
+};
+
+// Aggiungi questo middleware per verificare i token invalidati
+exports.checkTokenBlacklist = (req, res, next) => {
+  const token = req.headers.authorization?.split(' ')[1];
+  if (global.tokenBlacklist && global.tokenBlacklist.has(token)) {
+    return res.status(401).json({ message: 'Token non valido' });
+  }
+  next();
 };

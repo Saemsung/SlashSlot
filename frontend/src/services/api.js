@@ -40,8 +40,4 @@ api.interceptors.response.use(
   }
 );
 
-api.logout = () => {
-  return api.post('/access/logout');
-};
-
 export default api;

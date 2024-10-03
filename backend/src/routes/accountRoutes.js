@@ -11,8 +11,8 @@ router.get('/account/user', accessMiddleware, async (req, res) => {
     }
     res.json(account);
   } catch (err) {
-    console.error(err.message);
-    res.status(500).send('Errore del server');
+    console.error('Errore nel recupero dei dati utente:', err);
+    res.status(500).json({ message: 'Errore del server', error: err.message });
   }
 });
 

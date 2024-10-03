@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import api from '../../services/api';
 import { Alert, AlertDescription } from '@/components/ui/alert';
@@ -13,6 +13,17 @@ const Login = () => {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
+  useEffect(() => {
+    // Carica le credenziali salvate, se presenti
+    const savedEmail = localStorage.getItem('rememberedEmail');
+    const savedPassword = localStorage.getItem('rememberedPassword');
+    if (savedEmail && savedPassword) {
+      setEmail(savedEmail);
+      setPassword(savedPassword);
+      setRememberMe(true);
+    }
+  }, []);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
@@ -22,12 +33,15 @@ const Login = () => {
       const { token, refreshToken } = response.data;
       
       if (rememberMe) {
-        localStorage.setItem('token', token);
-        localStorage.setItem('refreshToken', refreshToken);
+        localStorage.setItem('rememberedEmail', email);
+        localStorage.setItem('rememberedPassword', password);
       } else {
-        sessionStorage.setItem('token', token);
-        sessionStorage.setItem('refreshToken', refreshToken);
+        localStorage.removeItem('rememberedEmail');
+        localStorage.removeItem('rememberedPassword');
       }
+      
+      sessionStorage.setItem('token', token);
+      sessionStorage.setItem('refreshToken', refreshToken);
       
       navigate('/account/user');
     } catch (error) {
@@ -46,10 +60,10 @@ const Login = () => {
   return (
     <div className="login-container">
       <div className="login-card">
-        <div className="login-header">
+        <Link to="/" className="login-header">
           <span className="logo">/</span>
           <h1>Slashslot</h1>
-        </div>
+        </Link>
         <form onSubmit={handleSubmit} className="login-form">
           <h2>Accedi</h2>
           {error && (

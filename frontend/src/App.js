@@ -8,6 +8,8 @@ import Login from './pages/access/Login';
 import Register from './pages/access/Register';
 import PasswordReset from './pages/access/PasswordReset';
 import PasswordRecovery from './pages/access/PasswordRecovery';
+import Logout from './pages/access/Logout';
+
 // UserArea
 import User from './pages/userArea/User';
 import Profile from './pages/userArea/Profile';
@@ -20,12 +22,11 @@ import Topbar from './components/Topbar';
 import Lateralbar from './components/Lateralbar';
 import PrivateRoute from './components/PrivateRoute';
 import Footer from './components/Footer';
-import Logout from './components/Logout';
 
 const App = () => {
     const isAuthenticated = () => {
-        return !!localStorage.getItem('token') || !!sessionStorage.getItem('token');
-    };
+        return !!sessionStorage.getItem('token');
+      };
 
     return (
         <Router>
@@ -39,9 +40,10 @@ const App = () => {
                         <Route path="login" element={isAuthenticated() ? <Navigate to="/account/user" /> : <Login />} />
                         <Route path="register" element={isAuthenticated() ? <Navigate to="/account/user" /> : <Register />} />
                         <Route path="passwordrecovery" element={<PasswordRecovery />} />
-                        <Route path="reset/:token" element={<PasswordReset />} />
                         <Route path="logout" element={<Logout />} />
                     </Route>
+
+                    <Route path="/reset/:token" element={<PasswordReset />} />
 
                     {/* Account Zone */}
                     <Route path="/account" element={<PrivateRoute />}>
